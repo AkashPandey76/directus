@@ -2,24 +2,21 @@ name:  scribe_github_workflow
 
 on: 
   push
-  
+
 jobs:
-  scribe-report-test:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
+  scribe-report-test:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: generate_sbom
+        id: valiant_bom
+        uses: scribe-security/action-bom@master
+        with:
+          type: git
+          target: 'https://github.com/AkashPandey76/directus.git'
+          format: json
+          scribe-enable: true
+          scribe-client-id: ${{ secrets.clientid }}
+          scribe-client-secret: ${{ secrets.clientsecret }}
+          product-key: Directus
 
-    
-
-    - name: Generate cyclonedx json SBOM
-      id: valiant_bom
-      uses: scribe-security/action-bom@master
-      with:
-        type: git
-        target: 'https://github.com/AkashPandey76/directus.git'
-        format: json
-        scribe-enable: true
-        scribe-client-id: ${{ secrets.clientid }}
-        scribe-client-secret: ${{ secrets.clientsecret }}
-        product-key: Directus
+       
